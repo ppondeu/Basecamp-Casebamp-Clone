@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="{{account.account_avatar}}" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <button id="send_receiver" class="ping_em_btn create_project_btn centered btn btn-primary" type="submit" onclick="window.location.href='/{{organization.organization_id}}';">
+                                Ping'em
+                            </button>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="adminland_btn">
+        <a class="adminland_link" href="/{{organization.organization_id}}/account">
+            <span>Adminland</span>
+        </a>
+    </div>
+    <span class="organization_name_logo">{{organization.organization_name}}</span>
+    <div class="panel-home__buttons">
+        <a href="/{{organization.organization_id}}/projects/new" class="btn btn-primary">Make a new project</a>
+        <a href="/{{organization.organization_id}}/account/enrollment/new" class="btn btn-primary">Invite people</a>
+    </div>
+    <p class="panel-home__info centered">
+        · All projects below · 
+    </p>
+    <section class="push-top">
+        <div class="card-grid-projects" id="card_grid_projects">
+            {% for p in user_projects %}
+                <a class="card card-project" href="/{{organization.organization_id}}/projects/{{p.project_id}}">
+                    <div class="card__content">
+                        <h2 class="card__title">{{ p.project_name }}</h2>
+                        <p class="card__description">{{ p.project_description }}</p>
+                    </div>
+                    </a>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="project_index_mystuff">
+        <div class="project_index_mystuff_col left margin_right">
+            <header class="project_index_mystuff_header centered">
+                <h3>
+                    <span>Your Schedule</span>
+                </h3>
+            </header>
+            <div class="project_index_mystuff_background_box">
+                <p class="label_see_all centered"> 
+                    A few upcoming events - <a class="see_all_btn" href="">see all</a>
+                </p>
+                <div class="container centered">
+                    <div class="wrapper">
+                    <header>
+                        <p class="current-date"></p>
+                        <div class="icons">
+                          <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                          <span id="next" class="material-symbols-rounded">chevron_right</span>
+                        </div>
+                      </header>
+                      <div class="calendar">
+                        <ul class="weeks">
+                          <li>Sun</li>
+                          <li>Mon</li>
+                          <li>Tue</li>
+                          <li>Wed</li>
+                          <li>Thu</li>
+                          <li>Fri</li>
+                          <li>Sat</li>
+                        </ul>
+                        <ul class="days"></ul>
+                      </div>
+                  </div>
+                </div>
+                <div class="schedule-day schedule-day--selected">
+                    <div class="schedule-day__dates">
+                        <h3 class="schedule-day__date flush">
+                            <span class="schedule-day__date-name">{{ date.strftime("%a, %b %d") }}</span>
+                        </h3>
+                    </div>
+                    <div class="schedule-day__events">
+                        {% for index in range(events | length) %}
+                            {% if (date_day in time_delta_list[index] and date.date() >= events_datetime_list[index][0].date() and date.date() <= events_datetime_list[index][1].date()) %}
+                                <a href="/{{organization.organization_id}}/projects/{{event_project_address_list[index].project_id}}/events/{{events[index].id}}" class="scheduled-event">
+                                    <h4 class="scheduled-event__title">
+                                        {{ events[index].title }}
+                                        <span class="scheduled-event__people avatar-group avatar-group--small">
+                                            <img class="avatar_event" src="">
+                                        </span>
+                                    </h4>
+                                    <div class="scheduled-event__metadata">
+                                        <div class="scheduled-event__time">
+                                            {% if events[index].start_date[0:11] == events[index].end_date[0:11] %}
+                                                {{ events[index].start_date[11:16] }} - {{ events[index].end_date[11:16] }}
+                                            {% else %}
+                                                {{ events[index].start_date[11:16] }} onward
+                                            {% endif %}
+                                        </div>
+                                        <span class="scheduled-event__bucket metadata-color">{{ event_project_address_list[index].project_name }}</span>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="project_index_mystuff_col right margin_left">
+            <header class="project_index_mystuff_header centered">
+                <h3>
+                    <span>Your Assignments</span>
+                </h3>
+            </header>
+            <div class="project_index_mystuff_background_box">
+                <p class="label_see_all centered"> 
+                    Stuff due soon and recently assigned - <a class="see_all_btn" href="">see all</a>
+                </p>
+                <section class="recordable_constraint">
+                    {% for index in range(assignments | length) %}
+                        {% if not assignments[index].over_due %}
+                        <article class="push_half_bottom">
+                            <ul class="todos remaining">
+                                <li class="assignment todo unindented">
+                                    <div class="indent">
+                                        <div class="checkbox left">
+                                            <label class="todo_checkbox_label">
+                                                {% if assignments[index].completed %}
+                                                    <input type="checkbox" name="todo_complete" value="{{assignments[index].id}}" id="todo_complete{{index}}" class="checkbox_input" checked>
+                                                {% else %}
+                                                    <input type="checkbox" name="todo_complete" value="{{assignments[index].id}}" id="todo_complete{{index}}" class="checkbox_input">
+                                                {% endif %}
+                                                <span class="checkbox_btn"></span>
+                                            </label>
+                                            <span class="checkbox_content">
+                                                <a href="/{{organization.organization_id}}">{{assignments[index].title}}</a>
+                                                <span class="todo_date">
+                                                    <span class="mini_date date_coloring">
+                                                        
+                                                    </span>
+                                                    {% if assignments[index].start_date != None and assignments[index].end_date != None %}
+                                                        {{ assignments[index].convert_date_to_datetime(assignments[index].start_date).strftime("%a, %b %d ") }} - {{ assignments[index].convert_date_to_datetime(assignments[index].end_date).strftime("%a, %b %d ") }}
+                                                    {% endif %}
+                                                </span>
+                                                <span class="todo_assignee u_nowrap">
+                                                    <img class="avatar">
+                                                    {{ assignments[index].added_by.name }}
+                                                </span>
+                                            </span>
+                                            <div class="metadata left">
+                                                <a href="/{{todo_organization_address[index].organization_id}}/projects/{{todo_project_address[index].project_id}}">{{ todo_project_address[index].project_name }}</a>
+                                                 in 
+                                                <a href="/{{todo_organization_address[index].organization_id}}">{{ todo_organization_address[index].organization_name }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </article>
+                        {% endif %}
+                    {% endfor %}
+                </section>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    org_id = {{organization.organization_id}}
+
+    console.log(org_id)
+
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+
+    const ping_form = document.querySelector('.ping_form');
+
+    ping_form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const receiver1 = ping_form.elements.receiver1.value;
+        const receiver2 = ping_form.elements.receiver2.value;
+        const receiver3 = ping_form.elements.receiver3.value;
+        const receiver4 = ping_form.elements.receiver4.value;
+
+    fetch('/{{organization.organization_id}}/circles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({receiver1, receiver2, receiver3, receiver4})
+    })
+    .then(response => response.json())
+    
+    .catch(error => {
+    console.error(error);
+    });
+});
+
+const daysTag = document.querySelector(".days"),
+currentDate = document.querySelector(".current-date"),
+prevNextIcon = document.querySelectorAll(".icons span");
+
+// getting new date, current year and month
+let date = new Date(),
+currYear = date.getFullYear(),
+currMonth = date.getMonth();
+
+// storing full name of all months in array
+const months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
+
+let events_dict = {{events_data|tojson}};
+console.log(events_dict);
+console.log(typeof events_dict[currYear][months[currMonth]]);
+
+const renderCalendar = () => {
+    let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
+    lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
+    lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
+    lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
+    let liTag = "";
+
+    for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
+        liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
+    }
+
+    for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
+        // adding active class to li if the current day, month, and year matched
+        let isEvent = ""
+        let isToday = i === date.getDate() && currMonth === new Date().getMonth() 
+                     && currYear === new Date().getFullYear() ? "active" : "";
+        if (typeof events_dict[currYear] !== "undefined" && typeof events_dict[currYear][months[currMonth]] !== "undefined") {
+            isEvent = events_dict[currYear][months[currMonth]].includes(i) ? "event" : "";
+        }
+        if (isEvent === "event") {liTag += `<li class="${isToday} ${isEvent}"><a href="/${org_id}/on/${currYear}-${currMonth + 1}-${i}">${i}</a></li>`;}
+        else {liTag += `<li class="${isToday} ${isEvent}">${i}</li>`;}
+        
+    }
+
+    for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
+        liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
+    }
+    currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
+    daysTag.innerHTML = liTag;
+}
+renderCalendar();
+
+prevNextIcon.forEach(icon => { // getting prev and next icons
+    icon.addEventListener("click", () => { // adding click event on both icons
+        // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
+        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+        if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
+            // creating a new date of current year & month and pass it as date value
+            date = new Date(currYear, currMonth, new Date().getDate());
+            currYear = date.getFullYear(); // updating current year with new date year
+            currMonth = date.getMonth(); // updating current month with new date month
+        } else {
+            date = new Date(); // pass the current date as date value
+        }
+        renderCalendar(); // calling renderCalendar function
+    });
+});
+
+var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+    if (this.checked) {
+        var todo_id = this.value
+        fetch('/{{organization.organization_id}}/users/{{user.id}}/todos/complete', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({todo_id})
+        })
+        .then(response => response.json())
+        
+        .catch(error => {
+        console.error(error);
+                                });
+        }
+    
+    });
+    });
+</script>
+</html>

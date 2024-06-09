@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>New message</title>
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(255, 252, 249, 1);
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        main,
+        nav,
+        section,
+        summary {
+            display: block;
+        }
+
+        div {
+            display: block;
+        }
+
+        section {
+            position: relative;
+        }
+
+        section #description_section {
+            height: 125px;
+        }
+
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-block-start: 0.67em;
+            margin-block-end: 0.67em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        h3 {
+            height: 25px;
+            margin: 0 0 0 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .flush {
+            margin: 0 0;
+        }
+
+        .nav {
+            height: 50px;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .nav__bar {
+            position: fixed;
+            height: 39px;
+            width: 100%;
+            top: 0;
+            text-align: center;
+            z-index: 6;
+            background-color: rgba(var(--rgb-beige), 0.9);
+            line-height: 1.5;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+        }
+
+        .panel {
+            padding: 0 1.6rem;
+            margin: 0 auto 10rem;
+            max-width: 68em;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .project-list__link {
+            display: block;
+            padding: 0.7rem 0;
+            font-weight: bold;
+        }
+
+        .nav-menu__accounts {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            position: relative;
+            line-height: 1.5;
+            z-index: 9;
+            width: 136px;
+        }
+
+        .collapsible_content {
+            height: 32px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .nav__main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 0;
+            grid-column: 1 / -1;
+            grid-row: 1;
+
+        }
+
+        .nav__links {
+            display: flex;
+            padding: 10px;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 0.6em;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        a {
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+
+        .header {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .header a {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: underline;
+            color: blue;
+        }
+
+        .container {
+            background-color: white;
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 100%;
+            padding: 10px;
+            min-height: 700px;
+
+        }
+
+        #avatar img {
+            margin: 0 auto;
+            display: block;
+            /* border-radius: 50%; */
+        }
+
+        #avatar {
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Style for the navigation links */
+        .nav-link {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 20px;
+            background-color: #2da562;
+        }
+
+        /* Style for the center navigation links */
+        .nav-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .data {
+            margin: 0 auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts">
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <a class="nav__links" href="">Pings</a>
+                <a class="nav__links" href="">Hey!</a>
+                <a class="nav__links" href="">Activity</a>
+                <a class="nav__links" href="">My Stuff</a>
+                <a class="nav__links" href="">Find</a>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class=" header centered">
+            <a href="/{{organization.organization_id}}/projects/{{project.project_id}}" class="project-link "
+                id="project">{{project.project_name}}</a>
+        </div>
+
+        <div class="box">
+
+            <div class="nav-container">
+                <div class="nav-left">
+                    <!-- Left navigation links -->
+                    <a href="/{{organization.organization_id}}/projects/{{project.project_id}}/message_boards/{{project.message_board.id}}/messages/new"
+                        class="nav-link">New Message</a>
+                </div>
+                <div class="nav-center">
+                    <!-- Center navigation links -->
+                    <span class="nav-title">{{project.message_board.title}}</span>
+                </div>
+
+            </div>
+
+            {% for i in range ( message_board | length ) %}
+            <div class="data">
+                <div class="__avatar__">
+                    <img src="{{account_sender_list[i].account_avatar}}" id="avatar" width="135" height="31">
+                </div>
+                <a class="__details__"
+                    href="/{{organization.organization_id}}/projects/{{project.project_id}}/messages/{{message_board[i].id}}">
+                    <div class="__title_detial__">
+                        <span>{{message_board[i].title}}</span>
+                    </div>
+                    <div class="__name_title__">
+                        <span>{{account_sender_list[i].name}}</span>
+                        <span>{{project.element_collector.message_board[i].timestamp}}</span>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</body>
+<script>
+</script>
+
+</html>

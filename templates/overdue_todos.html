@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overdue to-dos</title>
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="{{account.account_avatar}}" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <button id="send_receiver" class="ping_em_btn create_project_btn centered btn btn-primary" type="submit" onclick="window.location.href='/{{organization.organization_id}}';">
+                                Ping'em
+                            </button>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="menu_panel centered">
+        <div class="report_menu">
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/activity">
+                    All the latest activity
+                </a>
+                <a class="report_menu_item" href="/{{organization.organization_id}}/users/search/activity">
+                    Someone’s activity
+                </a>
+            </div>
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/users/search/assignments">
+                    Someone’s assignments
+                </a>
+                <a class="report_menu_item" href="/{{organization.organization_id}}/users/{{user.id}}/todos/summary">
+                    To-dos added & completed
+                </a>
+            </div>
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/todos/overdue">
+                    Overdue to-dos
+                </a>
+                <a class="report_menu_item" href="">
+                    Upcoming dates
+                </a>
+            </div>
+        </div>
+    </div>
+<div class="panel">
+    <div class="recordable">
+        <header class="recordable_header">
+            <h1 class="flush" style="color: #d4442e;">Overdue to-dos</h1>
+        </header>
+        <section class="recordable_constraint">
+            {% for index in range(overdue_todos | length) %}
+                <article class="push_bottom">
+                    {% if overdue_todos[index].count_overdue() == 1 %}
+                        <h4 class="count_overdue flush">{{ overdue_todos[index].count_overdue() }} day overdue</h4>
+                    {% else %}
+                        <h4 class="count_overdue flush">{{ overdue_todos[index].count_overdue() }} days overdue</h4>
+                    {% endif %}
+                    <div class="metadata">
+                        <a href="">{{todos_topic_list[index].title}}</a>
+                         in 
+                        <a href="/{{organization.organization_id}}/projects/{{todo_project_address_list[index].project_id}}">{{todo_project_address_list[index].project_name}}</a>
+                    </div>
+                    <ul class="todos remaining">
+                        <li class="assignment todo unindented">
+                            <div class="indent">
+                                <div class="checkbox">
+                                    <label class="todo_checkbox_label">
+                                        {% if overdue_todos[index].completed %}
+                                            <input type="checkbox" name="todo_complete" value="{{overdue_todos[index].id}}" id="todo_complete{{index}}" class="checkbox_input" checked>
+                                        {% else %}
+                                            <input type="checkbox" name="todo_complete" value="{{overdue_todos[index].id}}" id="todo_complete{{index}}" class="checkbox_input">
+                                        {% endif %}
+                                        <span class="checkbox_btn"></span>
+                                    </label>
+                                    <span class="checkbox_content">
+                                        <a href="/{{organization.organization_id}}/projects/{{todo_project_address_list[index].project_id}}/todos/{{overdue_todos[index].id}}">{{overdue_todos[index].title}}</a>
+                                        <span class="todo_date">
+                                            <span class="mini_date date_coloring">
+                                                
+                                            </span>
+                                            {{ overdue_todos[index].convert_date_to_datetime(overdue_todos[index].end_date).strftime("%a, %b %d ") }}
+                                        </span>
+                                        <span class="todo_assignee u_nowrap">
+                                            <img class="avatar">
+                                            {{ overdue_todos[index].added_by.name }}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+</body>
+<script>
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+</script>
+</html>

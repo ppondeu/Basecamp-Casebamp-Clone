@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% for r in receiver %}
+            {{ r.name }}
+        {% endfor %}
+    </title>
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link href="{{ url_for('static', path='/styles_march.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links " href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup" role="button">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="{{account.account_avatar}}" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input id="send_receiver" class="ping_em_btn centered btn btn-primary" type="submit" value="Ping'em"/>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="panel_chat">
+        <aside class="chat_toolbar">
+            
+        </aside>
+        <article class="chat_sheet">
+                    <h4 class="flush centered">
+                        Ping with 
+                        {% for receiver in  receiver%}
+                            {{ receiver.name }} 
+                        {% endfor %}
+                    </h4>
+            </header>
+            <div class="blank_slate"></div>
+            <div id="scroller" class="chat_container">
+                {% for chat in chat_history.thread %}
+                    <header class="date_divider">
+                        <h3 class="ping_list_header centered">
+                            <span class="header_label">{{ chat.timestamp.strftime("%d %b %Y") }}</span>
+                        </h3>
+                    </header>
+                    {% if chat.sender in receiver %}
+                        <div class="chat_line">
+                            <span class="anchor"></span>
+                            <div class="chat_line_avatar">
+                                
+                            </div>
+                            <div class="chat_line_bubble">
+                                <span class="chat_line_meta">
+                                    <strong class="chat_line_author">{{ chat.sender.name }}</strong>
+                                    <span class="chat_line_timestamp">{{ chat.timestamp.strftime("%I:%M%p") | lower }}</span>
+                                </span>
+                                <div class="chat_line_body">
+                                    {% if chat.content is string %}
+                                        <div>
+                                            <span>{{ chat.content }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <a class="decorated" href="/download/{{chat.content.filename}}">{{ chat.content.filename }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="chat_line_me">
+                            <span class="anchor"></span>
+                            <div class="chat_line_avatar">
+                                
+                            </div>
+                            <div class="chat_line_bubble">
+                                <span class="chat_line_meta">
+                                    <span class="chat_line_timestamp">{{ chat.timestamp.strftime("%I:%M%p") }}</span>
+                                    <strong class="chat_line_author">Me</strong>
+                                </span>
+                                <div class="chat_line_body">
+                                    {% if chat.content is string %}
+                                        <div>
+                                            <span>{{ chat.content }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <a href="/download/{{chat.content.filename}}">{{ chat.content.filename }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <footer class="chat_footer">
+                <form class="chat_form">
+                    <input id="chat_content" class="chat_text_bar" type="text" name="content">
+                    <input id="send_chat_btn" class="chat_text_bar" type="submit" hidden/>
+                </form>
+                <div class="chat_tools">
+                    <form id="form_file_attach" action="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}/upload_file" method="post" onsubmit="" enctype="multipart/form-data">
+                        <input type="file" id="file_attach" name="file_attach" class="chat_attach_btn"></input>
+                        <input id="submit_file" class="chat_text_bar" type="submit" hidden>
+                    </form>
+                </div>
+            </footer>
+        </article>
+    </div>
+</body>
+<script>    
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+
+    let scroll_to_bottom = document.getElementById('scroller');
+	scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight;
+
+    const fileInput = document.getElementById("file_attach");
+    const file_form = document.getElementById("form_file_attach");
+
+    fileInput.addEventListener("change", () => {
+        file_form.submit();
+    });
+
+    const chat_form = document.querySelector('.chat_form');
+
+    chat_form.addEventListener("submit", (event) => {
+
+        const content = chat_form.elements.content.value;
+
+    fetch('/{{organization.organization_id}}/circles/{{chat_history.thread_id}}/create_chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({content})
+    })
+    .then(response => response.json())
+    .catch(error => {
+    console.error(error);
+    });
+});
+</script>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* Styles for header and nav */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background-color: #fffcf9;
+            margin-top: 50px;
+        }
+
+        .container {
+            max-width: 400px;
+            border-radius: 5px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+        }
+
+        .profile-avatar {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            overflow: hidden;
+            /* margin-top : 20px; */
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-primary {
+            background-color: blue;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .register-form {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .person-attribute {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 80%;
+
+        }
+
+        .person-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        .person-form__required {
+            color: #fff;
+            font-weight: normal;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #000;
+        }
+
+        input[type="submit"] {
+            background-color: #30bb6c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="profile-avatar">
+                <img id="avatar"
+                    src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
+                    alt="profile-avatar">
+            </div>
+            <p>
+                <button class="btn-primary">Add your photo...</button>
+            </p>
+        </header>
+        <form id="edit-profile-form">
+            <section>
+                <input style="display: none;"
+                    accept="image/avif,image/heic,image/heif,image/webp,image/gif,image/jpeg,image/jpg,image/png"
+                    type="file" name="person[avatar]" id="person_avatar" />
+
+                <div class="person-attribute">
+                    <label class="person-label" for="name">
+                        Name: <span class="person-form__required">required</span>
+                    </label>
+                    <input class="name" required="required" type="text" name="person[name]" id="name" />
+                </div>
+
+                <div class="person-attribute">
+                    <label class="person-label" for="organization_name">Organization:</label>
+                    <input class="organization_name" type="text" name="person[organization_name]" id="organization_name"
+                        readonly />
+                </div>
+
+                <div class="person-attribute">
+                    <label class="person-label" for="email">
+                        Email:
+                    </label>
+                    <input class="email-input" type="email" name="person[email_address]" id="email" readonly />
+                </div>
+
+                <div class="person-attribute">
+                    <label class="person-label" for="password">
+                        Password:
+                    </label>
+                    <input class="password-input" required="required" type="password" name="person[password]"
+                        id="password" />
+                </div>
+            </section>
+            <footer class="submit-button">
+                <input type="submit" name="commit" value="OK, let's go" />
+            </footer>
+        </form>
+
+    </div>
+    <script>
+        window.onload = function () {
+            const organization_name = document.querySelector('#organization_name');
+            const url = window.location.href;
+            const organization_name_param = decodeURIComponent(url.match(/betnavmngvba_anzr=([^&]+)/)[1]);
+
+            organization_name.value = rot13(organization_name_param)
+            const email = document.querySelector('#email');
+            const email_param = decodeURIComponent(url.match(/rznvy=([^&]+)/)[1]);
+            email.value = rot13(email_param);
+        }
+        function rot13(str) {
+            var input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            var output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+            var index = x => input.indexOf(x);
+            return str.split('')
+                .map(x => index(x) > -1 ? output[index(x)] : x)
+                .join('');
+        }
+        const uploadPhotoBtn = document.getElementsByClassName('btn-primary')[0];
+        const fileInput = document.getElementById('person_avatar');
+        const avatarImg = document.getElementById('avatar');
+
+
+        uploadPhotoBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        async function uploadImage() {
+            const apiKey = '62c18fb1790c4f52bb1a031c0332b453';
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('key', apiKey);
+            formData.append('image', file);
+
+            const response = await fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const imageUrl = jsonResponse.data.url;
+                document.getElementById('avatar').src = imageUrl;
+            } else {
+                console.log('Error uploading image. Status code: ' + response.status);
+            }
+        }
+        fileInput.addEventListener('change', () => {
+            uploadImage();
+        });
+
+        const form = document.querySelector('#edit-profile-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('name').value;
+            const organizationInput = document.getElementById('organization_name').value;
+            const emailInput = document.getElementById('email').value;
+            
+            const passwordInput = document.getElementById('password').value;
+            var image_url = document.getElementById('avatar').src;
+            alert(fileInput.files.length);
+            if(fileInput.files.length === 0) {
+                image_url = '-';
+            }
+
+            const formData = new FormData();
+            formData.append('image_url', image_url);
+            formData.append('name', nameInput);
+            formData.append('email', emailInput);
+            formData.append('password', passwordInput);
+            alert(`${image_url} ${nameInput} ${emailInput} ${passwordInput}`)
+
+            const organization_id = window.location.href.match(/\/(\d+)\//)[1];
+            const url_fetch = `/${organization_id}/invitations/signup`;
+
+            fetch(url_fetch, {
+                method: 'POST',
+                body: formData
+            }).then((res) => {
+                return res.json();
+            }).then((data) => {
+                if (data.response === 'success') {
+                    window.location.href = `/users/${data.user_id}`;
+                } else {
+                    alert('User creation failed');
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+
+        });
+    </script>
+</body>
+
+</html>

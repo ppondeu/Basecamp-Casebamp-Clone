@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign up to Casebamp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141e23;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+        }
+
+        form {
+            background-color: #203038;
+            padding: 20px;
+            margin: 0 auto;
+            width: 400px;
+            height: 270px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=password] {
+            width: 100%;
+            /* border:#ffffff; */
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border-radius: 0.4rem;
+            padding:15px 10px 10px 10px;
+            width : 380px;
+            background-color: #203038;
+            border: 1px solid #ccc;
+            color:azure;
+            
+        }
+
+
+        button[type=submit] {
+            display: block;
+            /* margin: 20px auto 0; */
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 1.5em;
+            background-color: #30bb6c;
+            color: #000000;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type=submit]:hover {
+            background-color: #28a428;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .colorize {
+            -webkit-filter: invert(.75);
+            filter: invert(.75);  
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .form-text {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img width="98" height="78" class="colorize" aria-hidden="true" src="/static/paper-clip.svg" />
+    </div>
+    <h1>CaseBamp</h1>
+    <form id="register-form">
+        <div class="form-text">
+            Just need a few things to get you going.
+        </div>
+        <div class="form-text-2">
+
+        </div>
+        <div id="first-step">
+            <input type="text" id="name" name="name" placeholder="Your name" required><br><br>
+
+            <input type="email" id="email-1" name="email-1" placeholder="Your email Your email (e.g. julie@widgetco.com)" required><br><br>
+
+            <input type="text" id="organization_name" name="Your organization's name"
+                placeholder="Enter your organization name" required><br><br>
+
+        </div>
+        <div id="second-step">
+            <input type="email" id="email" name="email" required><br><br>
+
+            <input type="password" id="password" name="password" placeholder="Your Casebamp password" required><br><br>
+        </div>
+
+        <button type="submit" id="next-btn" onclick="next()"> Last step: you’ll set a password → </button>
+    </form>
+</body>
+<script>
+    // hide second step
+    document.getElementById("second-step").style.display = "none";
+    // get data from first step
+    const name_input = document.querySelector('#name');
+    const email_input = document.querySelector('#email-1');
+    const organization_name_input = document.querySelector('#organization_name');
+    // after click next button show second step and hide first step and set data to second step
+    function next() {
+        document.querySelector("form").style.backgroundColor = "#ffffff";
+        document.getElementById("first-step").style.display = "none";
+        document.getElementById("second-step").style.display = "block";
+        document.getElementById("email").value = email_input.value;
+        document.querySelector(".form-text").textContent = "Enter your existing password"
+        document.querySelector(".form-text-2").textContent = "Since you’ve used Basecamp before, enter the password you already use and we’ll finish creating your new account."
+        document.querySelector(".form-text").style.color = "#000000";
+        document.querySelector(".form-text-2").style.color = "#000000";
+        document.querySelector("html").style.backgroundColor = "#fffcf9";
+        document.querySelector("body").style.backgroundColor = "#fffcf9";
+        document.querySelector("h1").style.color = "#000000";
+        // change input tag background color
+        document.querySelector("#password").style.backgroundColor = "#ffffff";
+        document.querySelector("#email").style.backgroundColor = "#ffffff";
+        document.querySelector("#email").style.color = "#000000";
+        document.querySelector("#password").style.color = "#000000";
+    
+    }
+
+    // get data from second step
+    const password_input = document.querySelector('#password');
+    // after click register button send data to server
+    const form = document.querySelector('#register-form');
+    form.addEventListener('submit', (e) => {
+        // if first step not allow this function
+        if (document.getElementById("first-step").style.display != "none") {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+        const name = name_input.value;
+        const email = email_input.value;
+        const organization_name = organization_name_input.value;
+        const password = password_input.value;
+        const form_data = new FormData();
+        form_data.append('name', name);
+        form_data.append('email', email);
+        form_data.append('organization_name', organization_name);
+        form_data.append('password', password);
+        fetch('/signup/account/new', {
+            method: 'POST',
+            body: form_data
+        }).then(res => res.json())
+            .then(data => {
+                if (data.response == 'success') {
+                    window.location.href = '/users/'+data.user_id;
+                } else {
+                    alert(data.response);
+                }
+            })
+    });
+</script>
+
+</html>

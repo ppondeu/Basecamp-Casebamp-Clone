@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set who else is an adminitrator</title>
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input id="send_receiver" class="ping_em_btn centered btn btn-primary" type="submit" value="Ping'em"/>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="panel panel_adminland">
+        <header class="recordable_header">
+            <h1 class="flush" style="color: #283c46;">Add/Remove Administrators</h1>
+        </header>
+        <section class="adminland_sheet push_bottom">
+            <p class="powers_description flush">
+                It’s nice to have some trusted people available to help with administrative tasks on your Basecamp account. Here’s what Administrators can do:
+            </p>
+            <ul class="list_powers_description">
+                <li>Change what people can access</li>
+                <li>Add or remove other administrators</li>
+            </ul>
+            <label class="u_display_b">
+                <strong>Administrators on this account</strong>
+            </label>
+            <div class="list_picker">
+                {% for admin in target_list %}
+                    {% if admin in owners_list %}
+                        <div class="list_picker_item">
+                            <span class="list_picker_item_label">Owner</span>
+                            <span class="list_picker_item_avatar_box">
+                                <img class="list_picker_item_avatar" src="">
+                            </span>
+                            <span class="list_picker_item_detail">
+                                <strong>{{ admin.name }}</strong>
+                                <span class="person_title"></span>
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="list_picker_item">
+                            <a class="revoke_btn btn btn-primary" href="/{{organization.organization_id}}/account/administrators/remove_role/{{admin.id}}">
+                                Revoke
+                            </a>
+                            <span class="list_picker_item_avatar_box">
+                                <img class="list_picker_item_avatar" src="">
+                            </span>
+                            <span class="list_picker_item_detail">
+                                <strong>{{ admin.name }}</strong>
+                                <span class="person_title"></span>
+                            </span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if target_permission %}
+                    {% if user in owners_list %}
+                        <div class="list_picker_item">
+                            <span class="list_picker_item_label">Owner</span>
+                            <span class="list_picker_item_avatar_box">
+                                <img class="list_picker_item_avatar" src="">
+                            </span>
+                            <span class="list_picker_item_detail">
+                                <strong>{{ user.name }}</strong>
+                                <span class="person_title"></span>
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="list_picker_item">
+                            <a class="revoke_btn btn btn-primary" href="/{{organization.organization_id}}/account/adminitrators/remove_role/{{user.id}}">
+                                Revoke
+                            </a>
+                            <span class="list_picker_item_avatar_box">
+                                <img class="list_picker_item_avatar" src="">
+                            </span>
+                            <span class="list_picker_item_detail">
+                                <strong>{{ user.name }}</strong>
+                                <span class="person_title"></span>
+                            </span>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <form class="add_admin_form">
+                <label class="u_display_b">
+                    <strong>Who else should be an administrator?</strong>
+                </label>
+                <input class="input_ping input_person" list="members" name="member" placeholder="Type a person's name..."/>
+                    <datalist id="members">
+                        {% for member in contacts %}
+                            <option value="{{member.name}} : {{member.id}}">
+                        {% endfor %}
+                    </datalist>
+                <div class="submit_btn">
+                    <input type="submit" class="btn btn-primary create_project_btn" value="Grant adminitrator powers">
+                </div>
+            </form>
+        </section>
+    </div>
+</body>
+<script>
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+
+    const add_admin_form = document.querySelector('.add_admin_form');
+
+    add_admin_form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const member = add_admin_form.elements.member.value;
+
+    fetch('/{{organization.organization_id}}/account/administrators/add_role', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({member})
+    })
+    .then(response => response.json())
+    
+    .catch(error => {
+    console.error(error);
+    });
+    location.reload();
+});
+</script>
+</html>

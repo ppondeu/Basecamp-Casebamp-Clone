@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* Styles for header and nav */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background-color: #141e23;
+            font-family: sans-serif;
+        }
+
+        header {
+
+            color: white;
+            padding: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            margin-right: 10px;
+            /* background-image: url("https://i.imgur.com/y7DnALk.png"); */
+            background-image: url("/static/paper-clip.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li {
+            margin: 0 10px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            margin-left: 10px;
+            /* background-image: url("https://i.imgur.com/ztOD0gJ.png"); */
+            background-image: url("{{account.account_avatar}}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            .logo {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            ul {
+                margin-top: 10px;
+            }
+
+            li {
+                margin: 10px 0;
+            }
+
+            .profile {
+                margin-left: 0;
+            }
+        }
+
+        .container {
+            max-width: 600px;
+            border-radius: 5px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #283c46;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        .profile-avatar {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            overflow: hidden;
+            /* margin-top : 20px; */
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-primary {
+            background-color: #203038;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .register-form {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .person-attribute {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 80%;
+
+        }
+
+        .person-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .person-form__required {
+            color: #fff;
+            font-weight: normal;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #203038;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            background-color: #30bb6c;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .header-text {
+            text-align: center;
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo"></a>
+            <ul>
+                <li><a href="/{{organization.organization_id}}/projects">Home</a></li>
+                <li><a href="#">Line-up</a></li>
+                <li><a href="#">Pings</a></li>
+                <li><a href="#">Heys</a></li>
+                <li><a href="#">Activity</a></li>
+                <li><a href="#">My stuff</a></li>
+                <li><a href="#">Find</a></li>
+            </ul>
+            <div class="profile"></div>
+        </nav>
+    </header>
+    <div class="header-text">
+        <h1>Invite people to an organization</h1>
+    </div>
+    <div class="container">
+        <form id="invitation-form">
+
+            <div class="person-attribute">
+                <label for="organization_name" class="person-label">Name</label>
+                <input type="text" name="organization_name" value="{{organization.organization_name}}" readonly>
+                <label for="email" class="person-label">Email</label>
+                <input type="email" name="email" id="email" required>
+                <label for="real_email" class="person-label">Real-Email</label>
+                <input type="email" name="real_email" id="real_email" required>
+                <input type="submit" value="Email invitation now...">
+        </form>
+    </div>
+
+    <script>
+        const invitationForm = document.querySelector('#invitation-form');
+        invitationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.querySelector('#email').value;
+            const real_email = document.querySelector('#real_email').value;
+            const form_data = new FormData();
+            form_data.append('email', email);
+            form_data.append('real_email', real_email);
+            fetch('/{{organization.organization_id}}/account/enrollment', {
+                method: 'POST',
+                body: form_data
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // check if the response is successful
+                    if (data.response === 'success') {
+                        // redirect to the organization page
+                        window.location.href = '/{{organization.organization_id}}/account/enrollment/new';
+                    }
+                    else {
+                        // display the error message
+                        alert(data.response);
+                    }
+                })
+        })
+    </script>
+</body>
+
+</html>

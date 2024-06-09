@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{{element.title}}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/element_style.css">
+        <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    </head>
+    
+    <body>
+        <div class="paper_container">
+            <div class="directory_box">
+                <a class="decorated" href="/{{organization.organization_id}}/projects/{{project.project_id}}">{{ project.project_name }}</a>
+            </div>
+
+            <div class="detail_box">
+                event_details
+                <div class="header_box">
+                    <div class="check_box_button">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="todo_checkbox">
+                            <label for="todo_checkbox"></label>
+                        </div>
+                    </div>
+                    <div class="todo_title_box">
+                        {{element.title}}
+                    </div>
+                    <div class="right_upside_button_box">
+                        <button class="manage_button" id="manage_button">···</button>
+                    </div>
+
+                    
+                </div>
+
+                    <div class="line"></div>
+
+                <div class="two_side_text_box">
+                    
+                    <div class="property_name_box">Added by</div>
+                    <div class="property_value_box">{{element.added_by.name}}</div>
+
+                    <div class="property_name_box">With</div>
+                    <div class="property_value_box">
+                        {% for participant in element.participants %}
+                            {{participant.name}} 
+                        {% endfor %}
+                    </div>
+
+                    <div class="property_name_box">When done, notify</div>
+                    <div class="property_value_box">{{element.notify_who_when_done}}</div>
+
+                    <div class="property_name_box">When</div>
+                    {% if element.start_date[0:11] == element.end_date[0:11] %}
+                        <div class="property_value_box">{{start_date.strftime("%a, %b %d at %I:%M%p")}} - {{end_date.strftime("%I:%M%p")}}</div>
+                    {% else %}
+                        <div class="property_value_box">{{start_date.strftime("%a, %b %d at %I:%M%p")}} - {{end_date.strftime("%a, %b %d at %I:%M%p")}}</div>
+                    {% endif %}
+                    <div class="property_name_box">Notes</div>
+                    <div class="property_value_box">{{element.content}}</div>
+
+                </div>
+                    <div class="line"></div>
+
+            </div>
+        </div>
+    </body>
+
+</html>

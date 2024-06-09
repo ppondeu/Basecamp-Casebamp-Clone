@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><center>{{organization.organization_name}}</center></h1>
+    <form id="cancel-form" method="post" action="/{{organization.organization_id}}/account/cancellation">
+        <input type="submit" value="Cancel Organization">
+    </form>
+    <input type="submit" value="Never mind" onclick="window.location.href='/organization/{{organization.organization_id}}'">
+    <script>
+        // document.getElementById("cancel-form").onsubmit = function (e) {
+        //     e.preventDefault();
+        //     const url = window.location.href;
+        //     const urlParts = url.split('/');
+        //     const orgId = urlParts[3];
+        //     const fetch_url = `/${orgId}/account/cancellation`;
+        //     fetch(fetch_url, {
+        //         method: 'POST'
+        //     }).then(function (response) {
+        //         // if (response.status === 200) {
+        //         //     window.location.href = `/organization/${orgId}`;
+        //         // }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+            
+        // };
+    </script>
+</body>
+</html>

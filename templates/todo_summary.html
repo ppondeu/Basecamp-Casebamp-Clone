@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All the latest activity</title>
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="{{account.account_avatar}}" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <button id="send_receiver" class="ping_em_btn create_project_btn centered btn btn-primary" type="submit" onclick="window.location.href='/{{organization.organization_id}}';">
+                                Ping'em
+                            </button>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="menu_panel centered">
+        <div class="report_menu">
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/activity">
+                    All the latest activity
+                </a>
+                <a class="report_menu_item" href="/{{organization.organization_id}}/users/search/activity">
+                    Someone’s activity
+                </a>
+            </div>
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/users/search/assignments">
+                    Someone’s assignments
+                </a>
+                <a class="report_menu_item" href="">
+                    To-dos added & completed
+                </a>
+            </div>
+            <div class="report_menu_group">
+                <a class="report_menu_item" href="/{{organization.organization_id}}/todos/overdue">
+                    Overdue to-dos
+                </a>
+                <a class="report_menu_item" href="">
+                    Upcoming dates
+                </a>
+            </div>
+        </div>
+    </div>
+<div class="panel panel--wide panel--perma">
+    <article class="recordable todo-todone">
+        <header class="perma__header">
+            <header class="summary_title centered">
+                <div class="todo-todone__header">
+                    <div class="todo-todone__navigator">
+                        <div class="todo-todone__current">
+                            <h3 class="date_label normal flush">SATURDAY, APRIL 29</h3>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="perma__title flush--ends">To-dos added & completed</h1>
+            </header>
+        </header>
+        <section class="todo-ledger">
+            <div class="todo-ledger__column todo-ledger__column--created">
+                <header class="todo-ledger__header centered">
+                    <h4 class="flush">{{assignments | length}} to-dos were added</h4>
+                </header>
+                <div class="todo-ledger__content left_side">
+                    {% for index in range(assignments | length) %}
+                        <article class="push_bottom">
+                            <div class="metadata">{{todo_project_address[index].project_name}}</div>
+                            <h4 class="flush">
+                                <a class="decorated">
+                                    second topic
+                                </a>
+                                <span class="normal">– {{assignments[index].added_by.name}} added:</span>
+                            </h4>
+                            <section class="recordable_constraint">
+                                    <article class="push_half_bottom">
+                                        <ul class="todos remaining">
+                                            <li class="assignment todo unindented">
+                                                <div class="indent">
+                                                    <div class="checkbox left">
+                                                        <label class="todo_checkbox_label">
+                                                            {% if assignments[index].completed %}
+                                                                <input type="checkbox" name="todo_completed" value="1" class="checkbox_input" checked disabled>
+                                                            {% else %}
+                                                                <input type="checkbox" name="todo_completed" value="1" class="checkbox_input" disabled>
+                                                            {% endif %}
+                                                            <span class="checkbox_btn"></span>
+                                                        </label>
+                                                        <span class="checkbox_content">
+                                                            <a href="/{{organization.organization_id}}">{{assignments[index].title}}</a>
+                                                            <span class="todo_date">
+                                                                <span class="mini_date date_coloring">
+                                                                    
+                                                                </span>
+                                                                {% if assignments[index].start_date != None and assignments[index].end_date != None %}
+                                                                    {{ assignments[index].convert_date_to_datetime(assignments[index].start_date).strftime("%a, %b %d ") }} - {{ assignments[index].convert_date_to_datetime(assignments[index].end_date).strftime("%a, %b %d ") }}
+                                                                {% endif %}
+                                                            </span>
+                                                            <span class="todo_assignee u_nowrap">
+                                                                <img class="avatar">
+                                                                {{ assignments[index].added_by.name }}
+                                                            </span>
+                                                        </span>
+                                                        <div class="metadata left">
+                                                            <a href="/{{todo_organization_address[index].organization_id}}/projects/{{todo_project_address[index].project_id}}">{{ todo_project_address[index].project_name }}</a>
+                                                            in 
+                                                            <a href="/{{todo_organization_address[index].organization_id}}">{{ todo_organization_address[index].organization_name }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </article>
+                            {% endfor %}
+                        </section>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+            <div class="todo-ledger__column todo-ledger__column--created">
+                <header class="todo-ledger__header centered">
+                    <h4 class="flush">{{count_checked}} to-do was checked off</h4>
+                </header>
+                <div class="todo-ledger__content">
+                    {% for index in range(assignments | length) %}
+                        {% if assignments[index].completed %}
+                        <article class="push_bottom">
+                            <div class="metadata">{{todo_project_address[index].project_name}}</div>
+                            <h4 class="flush">
+                                <a class="decorated">
+                                    second topic
+                                </a>
+                                <span class="normal">– {{assignments[index].added_by.name}} added:</span>
+                            </h4>
+                            <section class="recordable_constraint">
+                                    <article class="push_half_bottom">
+                                        <ul class="todos remaining">
+                                            <li class="assignment todo unindented">
+                                                <div class="indent">
+                                                    <div class="checkbox left">
+                                                        <label class="todo_checkbox_label">
+                                                            <input type="checkbox" name="todo_completed" value="1" class="checkbox_input" checked disabled>
+                                                            <span class="checkbox_btn"></span>
+                                                        </label>
+                                                        <span class="checkbox_content">
+                                                            <a href="">{{assignments[index].title}}</a>
+                                                            <span class="todo_date">
+                                                                <span class="mini_date date_coloring">
+                                                                    
+                                                                </span>
+                                                                {% if assignments[index].start_date != None and assignments[index].end_date != None %}
+                                                                    {{ assignments[index].convert_date_to_datetime(assignments[index].start_date).strftime("%a, %b %d ") }} - {{ assignments[index].convert_date_to_datetime(assignments[index].end_date).strftime("%a, %b %d ") }}
+                                                                {% endif %}
+                                                            </span>
+                                                            <span class="todo_assignee u_nowrap">
+                                                                <img class="avatar">
+                                                                {{ assignments[index].added_by.name }}
+                                                            </span>
+                                                        </span>
+                                                        <div class="metadata left">
+                                                            <a href="/{{todo_organization_address[index].organization_id}}/projects/{{todo_project_address[index].project_id}}">{{ todo_project_address[index].project_name }}</a>
+                                                            in 
+                                                            <a href="/{{todo_organization_address[index].organization_id}}">{{ todo_organization_address[index].organization_name }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </article>
+                                {% endif %}
+                            {% endfor %}
+                        </section>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </article>
+</div>
+</body>
+<script>
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+</script>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Project</title>
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <button id="send_receiver" class="ping_em_btn create_project_btn centered btn btn-primary" type="submit" onclick="window.location.href='/{{organization.organization_id}}';">
+                                Ping'em
+                            </button>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="push_top">
+        <div class="backlink">
+            <span>← </span>
+            <a class="decorated" href="/{{organization.organization_id}}/projects/{{project.project_id}}">Back to People on {{ project.project_name }}</a>
+        </div>
+    </div>
+    <div class="invite_project_panel centered">
+        <form id="invite_project" class="invite_project">
+            <header class="push_bottom">
+                <h1 class="invite__title">Add people to this project</h1>
+            </header>
+            <div class="sheet sheet--shadowed sheet--medium sheet--entering sheet--centered sheet--padded app-mobile__no-shadow align--left">
+                <section>
+                    <h4 class="flush">
+                        Who do you want to add to this project?
+                    </h4>
+                    <div class="push_quarter--top push_bottom">
+                        <input class="invite_who" list="members" name="member" placeholder="Type their names here..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    {% if member not in project.members %}
+                                        <option value="{{member.name}} : {{member.id}}">
+                                    {% endif %}
+                                {% endfor %}
+                            </datalist>
+                    </div>
+                </section>
+            </div>
+            <div class="access_description sheet sheet--medium sheet--centered sheet--transparent submit-buttons">
+                <p style="margin-top: 0 !important; margin-bottom: 20px;">
+                <strong>What happens next?</strong>
+                Everyone above will be immediately added to the project and receive an email with instructions to join. They’ll be able to see everything posted so far.
+            </p>
+            <button type="submit" class="btn btn-primary create_project_btn" onclick="window.location.href='/{{organization.organization_id}}';">
+                Add them to the project
+            </button>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+
+    const invite_project = document.querySelector('.invite_project');
+
+    invite_project.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const member = invite_project.elements.member.value;
+
+    fetch('/{{organization.organization_id}}/projects/{{project.project_id}}/accesses/users/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({member})
+    })
+    .then(response => response.json())
+    
+    .catch(error => {
+    console.error(error);
+    });
+});
+
+const ping_form = document.querySelector('.ping_form');
+
+    ping_form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const receiver1 = ping_form.elements.receiver1.value;
+        const receiver2 = ping_form.elements.receiver2.value;
+        const receiver3 = ping_form.elements.receiver3.value;
+        const receiver4 = ping_form.elements.receiver4.value;
+
+    fetch('/{{organization.organization_id}}/circles', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({receiver1, receiver2, receiver3, receiver4})
+    })
+    .then(response => response.json())
+    
+    .catch(error => {
+    console.error(error);
+    });
+});
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="invitation-form">
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="email" id="real_email" name="real_email" placeholder="real email receiver" required>
+        <button type="submit">Send Invitation</button>
+    </form>
+</body>
+<script>
+    const invitationForm = document.querySelector('.invitation-form');
+    invitationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.querySelector('#email').value;
+        const real_email = document.querySelector('#real_email').value;
+        const form_data = new FormData();
+        form_data.append('email', email);
+        form_data.append('real_email', real_email);
+        fetch('/{{organization_id}}/invitations', {
+            method: 'POST',
+            body: form_data
+        })
+        .then(response => response.json())
+        .then(data => {
+            // check if the response is successful
+            if (data.response === 'success') {
+                // redirect to the organization page
+                window.location.href = '/{{organization_id}}';
+            }
+            else {
+                // display the error message
+                alert(data.response);
+            }
+        })
+    })
+</script>
+</html>

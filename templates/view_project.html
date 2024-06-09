@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project.project_name }}</title>
+    <link href="/static/styles_project.css" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts" >
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="/imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                <a class="nav__links" href="">Find</a>
+            </div>
+            <nav class="nav-menu nav-menu__me">
+                <div class="collapsible_content">
+                    <button class="nav__link--me" onclick="show_account()">
+                        <img src="{{account.account_avatar}}" class="avatar">
+                    </button>
+                </div>
+            </nav>
+        </nav>
+    </div>
+    <form id="search_ping" class="ping_form" onsubmit="" method="post">
+        <div class="ping_form_container">
+            <div class="ping_form_sub_container">
+                <section class="ping_sheet_entering">
+                    <article class="centered">
+                        <section>
+                            <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                            <datalist id="members">
+                                {% for member in contacts %}
+                                    <option value="{{member.name}} : {{member.id}}">
+                                {% endfor %}
+                            </datalist>
+                            <input id="send_receiver" class="ping_em_btn centered btn btn-primary" type="submit" value="Ping'em"/>
+                        </section>
+                        <section class="ping_list">
+                            <h3 class="ping_list_header">
+                                <span class="header_label">All Pings</span>
+                            </h3>
+                            {% for chat_history in user_chats %}
+                                <div>
+                                    <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                        {% for member in chat_history.members %}
+                                            {{ member.name }} 
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </article>
+                </section>
+            </div>
+        </div>
+    </form>
+    <div id="my_stuff" class="expanded_content">
+        <div class="stuff_scroller">
+            <section class="stuff_section">
+                <ul class="unbullete">
+                    <li>
+                        <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                            My Assignments
+                            <span>(2)</span>
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                            My Schedule
+                        </a>
+                        <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                            My Recent Activity
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div id="my_avatar" class="expanded_avatar_content">
+        <div class="nav-menu__scroller">
+            <section class="nav-menu__section">
+                <h3 class="flush personal_setting_label">
+                    <span>Personal Settings</span>
+                </h3>
+                <ul class="unbullete action_ul">
+                    <li>
+                        <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                    </li>
+                    <li>
+                        <a class="list__action account_list_action" href="/session">Log out</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <div class="panel project_panel">
+        <header class="project-header project-header--for-home centered u-position-context">
+            <div class="project-header__details">
+                <h1 class="project-header__name--overview">
+                    <span class="project-header__name-text">{{ project.project_name }}</span>
+                </h1>
+                <h3 class="project-header__description normal">{{ project.project_description }}</h3>
+            </div>
+            <div class="project-avatars centered push--bottom">
+                <div class="project-avatars__edit">
+                    <a class="project-avatars__edit-button btn btn--small push_half--right btn_add_people" href="/{{organization.organization_id}}/projects/{{project.project_id}}/accesses/users/new">
+                        <span>Add some people</span>
+                    </a>
+                </div>
+                <div class="project-avatars__overflow">
+                    <div class="project-avatars__list avatar-group avatar-group--small">
+                        {% for member in project.members %}
+                                <img class="avartar list_picker_item_avatar" src="{{system.get_account_by_user_id(member.id).account_avatar}}">
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="project-dock centered">
+            <div class="card-grid">
+                <article class="card card--message_board card--app card--docked">
+                    <a class="card__link" href="/{{organization.organization_id}}/projects/{{project.project_id}}/message_boards/{{project.message_board.id}}">
+                        <div class="card__content">
+                            <header class="card__header centered">
+                                <h1 class="card__heading flush txt--truncate">
+                                    <span class="card_title_project">Message Board</span>
+                                </h1>
+                            </header>
+                            <section class="card__body card__body--blank push_half--top app-mobile__no-top-margin">
+                                <div class="card__blank-slate">
+                                    <div class="card__icon card__icon--messages"></div>
+                                    <div class="card__description align--center">
+                                        <p class="flush">
+                                            Post announcements, pitch ideas, progress updates, etc. and keep feedback on-topic.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="card card--todoset card--app card--docked">
+                    <a class="card__link" href="/{{organization.organization_id}}/projects/{{project.project_id}}/todos_topics">
+                        <div class="card__content">
+                            <header class="card__header centered">
+                                <h1 class="card__heading flush txt--truncate">
+                                    <span class="card_title_project">To-dos</span>
+                                </h1>
+                            </header>
+                            <section class="card__body card__body--blank push_half--top app-mobile__no-top-margin">
+                                <div class="card__blank-slate">
+                                    <div class="card__icon card__icon--todos"></div>
+                                    <div class="card__description align--center">
+                                        <p class="flush">                
+                                            Make lists of work that needs to get done, assign items, set due dates, and discuss.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="card card--vault card--app card--docked">
+                    <a class="card__link" href="/{{organization.organization_id}}/projects/{{project.project_id}}/folder/{{project.docs_n_files.id}}">
+                        <div class="card__content">
+                            <header class="card__header centered">
+                                <h1 class="card__heading flush txt--truncate">
+                                    <span class="card_title_project">Docs & Files</span>
+                                </h1>
+                            </header>
+                            <section class="card__body card__body--blank push_half--top app-mobile__no-top-margin">
+                                <div class="card__blank-slate">
+                                    <div class="card__icon card__icon--documents"></div>
+                                    <div class="card__description align--center">
+                                        <p class="flush">                
+                                            Share docs, files, images, and spreadsheets. Organize in folders so they’re easy to find.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="card card--chat card--app card--docked">
+                    <a class="card__link" href="/{{organization.organization_id}}/circles/{{project.campfire_chat.thread_id}}">
+                        <div class="card__content">
+                            <header class="card__header centered">
+                                <h1 class="card__heading flush txt--truncate">
+                                    <span class="card_title_project">Campfire</span>
+                                </h1>
+                            </header>
+                            <section class="card__body card__body--blank push_half--top app-mobile__no-top-margin">
+                                <div class="card__blank-slate">
+                                    <div class="card__icon card__icon--campfire"></div>
+                                    <div class="card__description align--center">
+                                        <p class="flush">                
+                                            Chat casually with the group, ask random questions, and share stuff without ceremony.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </article>
+                <article class="card card--schedule card--app card--docked">
+                    <a class="card__link" href="/{{organization.organization_id}}/projects/{{project.project_id}}/schedule">
+                        <div class="card__content">
+                            <header class="card__header centered">
+                                <h1 class="card__heading flush txt--truncate">
+                                    <span class="card_title_project">Schedule</span>
+                                </h1>
+                            </header>
+                            <section class="card__body card__body--blank push_half--top app-mobile__no-top-margin">
+                                <div class="card__blank-slate">
+                                    <div class="card__icon card__icon--schedule"></div>
+                                    <div class="card__description align--center">
+                                        <p class="flush">         
+                                            <strong class="txt--highlight green_highlight">There are {{ assignments | length }} assignments not completed</strong>
+                                            , and 
+                                            <strong class="txt--highlight">you've got {{ my_overdue_todos | length }} overdue assignments</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+    var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+</script>
+</html>

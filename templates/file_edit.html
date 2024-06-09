@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+            background-color: antiquewhite;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(255, 252, 249, 1);
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        main,
+        nav,
+        section,
+        summary {
+            display: block;
+        }
+
+        div {
+            display: block;
+        }
+
+        section {
+            position: relative;
+        }
+
+        section #description section {
+            height: 125px;
+        }
+
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-block-start: 0.67em;
+            margin-block-end: 0.67em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        h3 {
+            height: 25px;
+            margin: 0 0 0 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .flush {
+            margin: 0 0;
+        }
+
+        .nav {
+            height: 50px;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .nav__bar {
+            position: fixed;
+            height: 39px;
+            width: 100%;
+            top: 0;
+            text-align: center;
+            z-index: 6;
+            background-color: rgba(var(--rgb-beige), 0.9);
+            line-height: 1.5;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+        }
+
+        .panel {
+            padding: 0 1.6rem;
+            margin: 0 auto 10rem;
+            max-width: 68em;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .project-list__link {
+            display: block;
+            padding: 0.7rem 0;
+            font-weight: bold;
+        }
+
+        .nav-menu__accounts {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            position: relative;
+            line-height: 1.5;
+            z-index: 9;
+            width: 136px;
+        }
+
+        .collapsible_content {
+            height: 32px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .nav__main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 0;
+            grid-column: 1 / -1;
+            grid-row: 1;
+        }
+
+        .nav__links {
+            display: flex;
+            padding: 10px;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 0.6em;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .organization_name_logo {
+            display: flex;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 0.6em;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .panel-home__buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            height: 42px;
+            gap: 0.6rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5em 1em;
+            border-radius: 1.5em;
+            vertical-align: middle;
+            text-decoration: none;
+            text-align: center;
+            white-space: normal;
+            cursor: pointer;
+            outline-offset: 0.4em;
+        }
+
+        .btn-primary {
+            background-color: rgba(10, 174, 92, 0.87);
+            color: rgba(255, 255, 255, 0.87);
+        }
+
+        input {
+            height: 35.2px;
+        }
+
+        .create_project_btn {
+            border-width: 0px;
+        }
+
+        .cancel_btn {
+
+            background-color: rgba(255, 255, 255, 0.87);
+            color: rgba(10, 174, 92, 0.87);
+        }
+
+        .push-top {
+            margin-top: 1.25em !important;
+        }
+
+        .card {
+            position: relative;
+            width: 46%;
+            margin: 2%;
+            vertical-align: top;
+            font-size: 1.1rem;
+            line-height: 1.3;
+            text-align: left;
+            text-rendering: optimizeLegibility;
+            word-wrap: break-word;
+            word-break: break-word;
+            border: 1px solid var(--color-shade-10);
+            scroll-margin-top: 10rem;
+        }
+
+        .card-project {
+            display: flex;
+            flex: 1;
+            margin: 0;
+            border-radius: 6px;
+            border: 0;
+            max-width: 370px;
+            min-width: 256.5px;
+            box-shadow: 0 -0.5px 0.5px rgba(135, 116, 87, 0.1),
+                0 -0.5px 0.5px rgba(135, 116, 87, 0.1),
+                0 2px 1px rgba(135, 116, 87, 0.1),
+                0 10px 15px -5px rgba(135, 116, 87, 0.1),
+                0 2px 3px rgba(135, 116, 87, 0.1);
+            font-size: 16px;
+        }
+
+        .card-grid-projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            height: 200px;
+        }
+
+        .card__content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            padding: 17px;
+            overflow: hidden;
+        }
+
+        .card__title {
+            margin: 0;
+            position: relative;
+            width: 100%;
+            font-size: 1.2em;
+            padding-right: 1rem;
+            z-index: 2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card__description {
+            white-space: normal !important;
+            text-overflow: clip !important;
+            overflow: hidden !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            margin: 0;
+        }
+
+        .panel-home__info {
+            font-size: 15px;
+            padding-top: 1.4rem;
+            padding-bottom: 0.8rem;
+            margin: 0;
+        }
+
+        .search_bar {
+            display: flex;
+            z-index: 3;
+            height: 44px;
+            background: #fff;
+            border: 1px solid #dfe1e5;
+            margin: 0 auto;
+            width: auto;
+            max-width: 584px;
+        }
+
+        .search_bar .text_bar {
+            background-color: transparent;
+            border: none;
+            max-width: 500px;
+            max-height: 42px;
+            width: auto;
+            height: auto;
+            color: rgba(0, 0, 0, 0.87);
+            word-wrap: break-word;
+            outline: none;
+            display: flex;
+            flex: 100%;
+            font-size: 16px;
+        }
+
+        .text_bar {
+            padding-left: 10px;
+        }
+
+        .description_input {
+            margin: 5px 0 20px 0;
+            width: 100%;
+            height: 125px;
+        }
+
+        .project-list__link {
+            display: block;
+            padding: 0.7rem 0;
+            font-weight: bold;
+        }
+
+        .lineupWrap {
+            overflow: scroll;
+            height: 580px;
+            width: 1131px
+        }
+
+        .lineup {
+            width: calc(1050px + ((1050px / 13 / 7) * 7));
+            height: 580px;
+        }
+
+        .lineup_today {
+            width: 100%;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            padding: 8px 0 0 0;
+        }
+
+        .today_padding {
+            font-size: 24px;
+            border-radius: 5px;
+            font-weight: normal;
+            background-color: rgba(10, 174, 92, 0.87);
+            color: rgba(255, 255, 255, 1);
+            padding: 4px 12px;
+            margin: 0;
+        }
+
+        .lineup__board {
+            height: 580px;
+            width: 100%;
+            position: relative;
+            padding: 24px 0 0 0;
+            overflow: hidden;
+        }
+
+        .lineup__board:after {
+            content: '';
+            width: 2px;
+            height: 100%;
+            display: block;
+            position: absolute;
+            left: calc(50% - 1px);
+            top: 0;
+            margin: 0 auto;
+            background-color: rgba(10, 174, 92, 0.87);
+        }
+
+        .lineup__timeline {
+            width: 100%;
+            min-height: 500px;
+            display: grid;
+        }
+
+        .lineup_grid {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .lineup_grid div {
+            color: rgba(109, 109, 109, 1);
+            font-size: 12px;
+            padding-left: 8px;
+            padding-bottom: 50px;
+            border-left: 1px dotted rgba(0, 0, 0, 0.15);
+        }
+
+        .lineup_grid-fix {
+            display: grid;
+            width: calc(1050px + ((1050px / 13 / 7) * 7));
+            grid-template-columns: repeat(15, 1fr);
+        }
+
+        .form_sheet {
+            display: flex;
+            height: 600px;
+            width: 100%;
+            justify-content: center;
+            overflow: hidden auto;
+        }
+
+        .form_container {
+            width: 566px;
+            height: 566px;
+            padding: 24px;
+        }
+
+        .form_sub_container {
+            padding: 24px;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .text_input_label {
+            margin: 0;
+            font-weight: bold;
+            display: block;
+        }
+
+        .input_bar {
+            margin: 5px 0 20px 0;
+            width: 100%;
+            height: 47px;
+        }
+
+        .test {
+            width: 500px;
+        }
+
+        .project_index_mystuff {
+            display: flex;
+            height: 580px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            justify-content: center;
+        }
+
+        .project_index_mystuff_col {
+            display: inline-block;
+            width: 500px;
+            height: 580px;
+        }
+
+        .margin_right {
+            margin-right: 10px;
+        }
+
+        .margin_left {
+            margin-left: 10px;
+        }
+
+        .project_index_mystuff_header {
+            height: 25px;
+            width: 100%;
+        }
+
+        .project_index_mystuff_header span {
+            display: inline-block;
+            padding: 0.3em 0.73em;
+            color: rgba(255, 255, 255, 1);
+            background: rgba(171, 167, 160, 1);
+            border-radius: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .project_index_mystuff_background_box {
+            display: block;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 10px;
+            padding: 20px 48px 80px;
+            width: 500px;
+            height: 560px;
+        }
+
+
+        .__container__ {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 70%;
+            min-height: 100vh;
+            margin: 20px auto 0;
+            box-shadow: 0 2px 10px #8774571a, 0 4px 4px #8774571a, 0 25px 19px -11px #8774571a, 0 10px 30px #8774571a;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+        }
+
+        .__header_bar__ {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0 30px;
+        }
+
+        .__title__ {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .__title__ input {
+            width: 80%;
+            height: 80px;
+            font-size: 35px;
+            outline: none;
+            border: none;
+        }
+
+        .__attach_file__ {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .__attach_file__ button {
+            width: 150px;
+            height: 40px;
+            font-size: large;
+            background-color: #2da562;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .__content__ textarea {
+            width: 80%;
+            min-height: 200px;
+            font-size: 20px;
+            outline: none;
+            border: none;
+            resize: none;
+            justify-content: left;
+        }
+
+        .__content__ {
+            width: 80%;
+            min-height: 600px;
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .__content_image__ {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .__content_image_wrapper__ {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .__submit_btn__ {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .__submit_btn__ button {
+            width: 200px;
+            height: 40px;
+            font-size: large;
+            background-color: #2da562;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: white;
+        }
+    </style>
+</head>
+
+<>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts">
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <a class="nav__links" href="">Pings</a>
+                <a class="nav__links" href="">Hey!</a>
+                <a class="nav__links" href="">Activity</a>
+                <a class="nav__links" href="">My Stuff</a>
+                <a class="nav__links" href="">Find</a>
+            </div>
+        </nav>
+    </div>
+    <div class="__container__">
+        <div class="__header_bar__">
+            <a href="/{{organization.organization_id}}/projects/{{project.project_id}}"> {{project.project_name}} </a>
+            {% for f_path in folder_path %}
+            <span> > </span>
+            <a href="/{{organization.organization_id}}/projects/{{project.project_id}}/folder/{{f_path.id}}">
+                {{f_path.title}} </a>
+            {% endfor %}
+        </div>
+        <div class="__title__">
+            <input type="text" class="__title_input__" value="{{current_file.title}}" placeholder="Type a title"
+                autofocus></input>
+        </div>
+        <div class="__attach_file__">
+            <button class="__attach_file_btn__">Attach a file</button>
+            <input type="file" name="file" id="file" class="__attach_file_input__" style="display:none" />
+        </div>
+        <div class="__content__">
+            <div class="__content_input__">
+                <textarea name="content" id="content_input" cols="30" rows="10"
+                    placeholder="내용을 입력하세요">{{current_file.content}}</textarea>
+            </div>
+            <div class="__content_detials__">
+                <div class="__content_image__"></div>
+            </div>
+        </div>
+    </div>
+    <div class="__submit_btn__">
+        <button type="button" id="submit_btn">Save my changes</button>
+    </div>
+    <script>
+        const fileInput = document.querySelector('.__attach_file_input__');
+        const fileBtn = document.querySelector('.__attach_file_btn__');
+        fileBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        let url_list = {{ url_list | tojson}};
+
+        url_list.forEach(url => {
+            const image_content = document.querySelector('.__content_image__');
+            const image_wrapper = document.createElement('div');
+            image_wrapper.setAttribute('class', '__content_image_wrapper__');
+            const image = document.createElement('img');
+            const download_btn = document.createElement('a');
+            const remove_btn = document.createElement('button');
+            // remove_btn.setAttribute('class', '__remove_btn__');
+            remove_btn.textContent = 'Remove';
+            remove_btn.addEventListener('click', () => {
+                // remove image from the list check if same image name remove correct index
+                const index = url_list.findIndex((element) => element === url);
+                url_list.splice(index, 1);
+                console.log(url_list)
+                image_wrapper.remove();
+            });
+
+            const file_name = url.split('/').pop();
+            console.log(file_name)
+            const caption = document.createElement('p');
+            fetch(url, { method: 'HEAD' })
+                .then(response => {
+                    // Get the content-length header from the response
+                    const contentLength = response.headers.get('content-length');
+                    // Update the caption with the actual file size
+                    caption.textContent = `${file_name} (${Math.round(contentLength / 1024)} KB)`;
+                })
+                .catch(error => {
+                    console.error(`Error fetching file size: ${error}`);
+                });
+            image.setAttribute('src', url);
+
+            image.addEventListener('load', function () {
+                image.setAttribute('width', image.naturalWidth);
+                image.setAttribute('height', image.naturalHeight);
+            });
+
+            download_btn.setAttribute('href', url);
+            download_btn.setAttribute('download', file_name);
+            download_btn.innerText = 'Download';
+
+            image_wrapper.appendChild(image);
+            image_wrapper.appendChild(remove_btn);
+            image_wrapper.appendChild(download_btn);
+            image_wrapper.appendChild(caption);
+            image_content.appendChild(image_wrapper);
+
+            // set attribute to center the image
+            image_wrapper.setAttribute('style', 'text-align: center;');
+
+            fetchImage(url, download_btn);
+        });
+
+        function fetchImage(url, download_btn) {
+            fetch(url)
+                .then(res => res.blob())
+                .then(blob => handler(blob, download_btn))
+                .catch(err => console.log(err));
+        }
+
+        function handler(inputBlob, download_btn) {
+            const url = URL.createObjectURL(inputBlob);
+            download_btn.setAttribute('href', url);
+        }
+
+        async function uploadImage() {
+            // check if file is selected
+            const apiKey = '62c18fb1790c4f52bb1a031c0332b453';
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('key', apiKey);
+            formData.append('image', file);
+
+            const response = await fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const imageUrl = jsonResponse.data.url;
+                url_list.push(imageUrl);
+                console.log(url_list)
+                const fileName = file.name;
+                const fileSize = file.size;
+
+                // create image wrapper
+                const image_content = document.querySelector('.__content_image__');
+                const image_wrapper = document.createElement('div');
+                image_wrapper.setAttribute('class', '__content_image_wrapper__');
+                const image = document.createElement('img');
+                const download_btn = document.createElement('a');
+                const remove_btn = document.createElement('button');
+                remove_btn.setAttribute('class', '__remove_btn__');
+                remove_btn.textContent = 'Remove';
+                remove_btn.addEventListener('click', () => {
+                    // remove image from the list check if same image name remove correct index
+                    const index = url_list.findIndex((element) => element === imageUrl);
+                    url_list.splice(index, 1);
+                    console.log(url_list)
+                    image_wrapper.remove();
+                });
+
+                const caption = document.createElement('p');
+                caption.textContent = `${fileName} (${Math.round(fileSize / 1024)} KB)`;
+                image.setAttribute('src', imageUrl);
+
+                image.addEventListener('load', function () {
+                    image.setAttribute('width', image.naturalWidth);
+                    image.setAttribute('height', image.naturalHeight);
+                });
+
+                download_btn.setAttribute('href', imageUrl);
+
+                download_btn.setAttribute('download', fileName);
+
+                download_btn.innerText = 'Download';
+
+                image_wrapper.appendChild(image);
+
+                image_wrapper.appendChild(remove_btn);
+
+                image_wrapper.appendChild(download_btn);
+
+                image_wrapper.appendChild(caption);
+
+                image_content.appendChild(image_wrapper);
+
+                // set attribute to center the image
+                image_wrapper.setAttribute('style', 'text-align: center;');
+
+                fetchImage(imageUrl, download_btn);
+
+
+
+            } else {
+                console.log('Error uploading image. Status code: ' + response.status);
+            }
+        }
+
+        fileInput.addEventListener('change', () => {
+            uploadImage();
+        });
+
+
+        const submit_btn = document.querySelector('#submit_btn');
+        submit_btn.addEventListener('click', () => {
+            const title = document.querySelector('.__title_input__').value;
+            const content = document.querySelector('#content_input').value;
+            var form_data = new FormData();
+            form_data.append('title', title);
+            form_data.append('content', content);
+            form_data.append('url_list', JSON.stringify(url_list));
+            console.log(form_data);
+            fetch('/{{organization.organization_id}}/projects/{{project.project_id}}/files/{{current_file.id}}/edit', {
+                method: 'PUT',
+                body: form_data
+            }).then(res => {
+                return res.json();
+            })
+                .then(data => {
+                    console.log(data.file_id)
+                    if (data.response == 'success') {
+                        // alert('Post successfully');
+                        window.location.href = '/{{organization.organization_id}}/projects/{{project.project_id}}/files/{{current_file.id}}/';
+                    } else {
+                        alert('Post failed');
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
+
+    </script>
+
+    </body>
+
+
+</html>

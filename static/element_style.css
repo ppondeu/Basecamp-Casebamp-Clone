@@ -1,0 +1,428 @@
+
+body {
+    background-color: #FFFCF9;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI";
+}
+
+.line {
+    display: inline-block;
+    border-bottom: 1px solid #e9e9e9;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-inline: 500px;
+  }
+  
+.paper_container {
+    display: grid;
+    padding-top: 6vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5vh 100vh;
+    text-align: center;
+    
+
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    line-height: 3rem;
+    vertical-align: middle;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.push_half_bottom {
+    margin-bottom: 20px;
+}
+
+.left {
+    text-align: left;
+}
+
+.adder_form {
+    width: 450px;
+    margin: 20px 0 0 20px;
+    padding-left: 20px
+  }
+
+.push_left {
+    margin-left: 88px;
+}
+
+.directory_box {
+    width: 70%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: white;
+    justify-self: center;
+    color: #333;
+    box-shadow:
+       inset 0 -1em 1em rgba(0,0,0,0.2),
+             0 0  0 2px rgb(245,245,245),
+             0.3em 0.3em 1em rgba(0,0,0,0.4);
+}
+
+.detail_box {
+    width: 80%;
+    justify-self: center;
+    border-radius: 6px;
+    background-color: white;
+    color: #283C46;
+    box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.2),
+             0 0  0 2px rgb(245,245,245),
+             0.3em 0.3em 1em rgba(0,0,0,0.4);
+}
+
+.header_box {
+    display: grid;
+    height: 100px;
+    padding-inline: 20px;
+    grid-template-columns: 12fr 50fr 10fr;
+    grid-template-rows: auto;
+
+}
+
+.general_title_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.todo_title_box {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    
+    font-size: 35px;
+    font-weight: 640px;
+}
+
+.check_box_button {
+    display: flex;
+    width: 100px;
+    padding-left: 18px;
+    justify-self: self-end;
+ 
+}
+
+.right_upside_button_box {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+   
+}
+
+.two_side_text_box {
+    display: grid;
+    grid-gap: 10px;
+    grid-row-gap: 18px;
+    padding-top: 10px;
+    padding-left: 91px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border: black;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+   
+    
+}
+
+.property_name_box {
+    display: flex;
+    font-size: 17px;
+    font-weight: 550;
+    justify-content: right;
+}
+
+/*add js if none use gray text */
+.property_value_box {
+    display: flex;
+    font-weight: 455;
+    padding-left: 13px;
+    justify-content: left;
+}
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+}
+
+.checkbox-container label {
+    cursor: pointer;
+    display: flex;
+}
+
+.checkbox-container input[type='checkbox'] {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-container label::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+   
+    text-align: center;
+    content: 'Mark this complete';
+    color: rgb(185, 185, 185);
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
+    border: 2px solid rgb(107, 107, 107);
+}
+
+.checkbox-container input[type='checkbox']:disabled + label,
+.checkbox-container input[type='checkbox']:disabled {
+    color: #aaa;
+    cursor: default;
+}
+
+.checkbox-container input[type='checkbox']:checked + label::before {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-family: 'Material Icons Round';
+    font-size: 65px;
+    color: white;
+    content: 'done';
+    background-color: #27AE60;
+    border: 2px solid #27AE60;
+
+}
+
+.checkbox-container input[type='checkbox']:disabled + label::before {
+    background-color: #ccc;
+    border-color: #999;
+}
+
+
+.add_element_button{
+
+font-weight: 0;
+font-size: 14px;
+color: rgb(255, 255, 255);
+background-color: #30BB6C;
+border: 1px solid #ffffff;
+padding: 10px 30px;
+
+border-radius: 50px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+height: 33px;
+}
+
+
+
+.manage_button{
+
+    font-weight: 30px;
+    font-size: 20px;
+    
+    color: #283C46;
+    background-color: #ffffff;
+    border: 1px solid #354852;
+    
+    border-radius: 40px;
+    text-align: center;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+.avatar_inline {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.avatar_inline .avatar {
+    position: relative;
+    top: -0.12em;
+    left: 0.12em;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.recordable_constraint {
+    margin-top: 1.25em !important;
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.count_overdue {
+    color: #d4442e;
+}
+
+ul.todos.remaining {
+    min-height: 0.25em;
+}
+
+ul.todos {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.todo {
+    list-style: none;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.todo.unindented .indent {
+    padding-left: 0;
+}
+
+.todo .indent {
+    padding-left: 3.1rem;
+    position: relative;
+}
+
+.checkbox {
+    padding: 0.25em 0 0.25em 1.9em;
+    position: relative;
+    min-height: 1.4em;
+    display: block;
+}
+
+.todo_checkbox_label {
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    cursor: pointer;
+}
+
+.checkbox_input {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    z-index: -1;
+}
+
+.checkbox_btn {
+    display: inline-block;
+    width: 1.4em;
+    height: 1.4em;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 0.3em;
+    vertical-align: top;
+}
+
+.checkbox_input:checked+.checkbox_btn {
+    position: relative;
+    border-color: #0000001a;
+    background-color: #2da562;
+    box-shadow: none;
+}
+
+.checkbox_input:checked+.checkbox_btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: url(https://3.basecamp.com/assets/icons/checkmark-a695aaa8b1bcd71727daf9f35fa15b945aa72ba54f9f6bfacbe3468901458b7d.svg) no-repeat center center;
+    background-size: 65%;
+}
+
+.checkbox_content {
+    display: block;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.checkbox_content>* {
+    margin-right: 0.2em;
+    line-height: 1.5em;
+}
+
+.todo_date {
+    display: inline-block;
+    position: relative;
+    font-size: 0.875em;
+    color: #877457;
+}
+
+.mini_date {
+    position: relative;
+    margin-left: 1.65em;
+}
+
+.date_coloring {
+    color: #4caf50;
+}
+
+.date_coloring:before {
+    filter: invert(59%) sepia(9%) saturate(2597%) hue-rotate(72deg) brightness(96%) contrast(98%);
+}
+
+.mini_date:before {
+    content: '';
+    position: absolute;
+    width: 1.428em;
+    height: 1.428em;
+    left: -1.65em;
+    top: -0.125em;
+    display: block;
+    background: transparent url(https://3.basecamp.com/assets/icons/calendar-f05b46bf6e98dc9f33c8deb9356d6594c9b57279a843a6ed6cc5be680e6c5754.svg) center center no-repeat;
+    background-size: cover;
+}
+
+.u_nowrap {
+    white-space: nowrap;
+}
+
+.todo_assignee {
+    display: inline;
+    position: relative;
+    font-size: 0.875em;
+    color: #877457;
+}
+
+.todo_assignee .avatar {
+    width: 1.21em;
+    height: 1.21em;
+    margin-top: -0.245em;
+}
+
+.action-sheet__content {
+    transition: all 0.2s;
+    background: #1b6ac9;
+    color: #ffffff;
+    text-align: left;
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    padding-top: 5.2rem;
+    overflow: hidden;
+    z-index: 3;
+    display: block !important;
+    width: 26rem;
+    height: auto;
+    border-radius: 0 0.2em 0 0.2em;
+    top: -1.5rem;
+    right: -1.5rem;
+}

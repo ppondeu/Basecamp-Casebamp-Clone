@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Todo Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <link rel="stylesheet" href="/static/element_style.css">
+        <link href="/static/styles_march.css" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    </head>
+    
+    <body>
+        <div class="nav">
+            <nav id="my_navigation" class="nav__bar">
+                <nav class="nav-menu nav-menu__accounts" >
+                    <div class="collapsible_content">
+                        <a onclick="show_organizations()">
+                            <img src="/imgs/basecamp2.png" width="135" height="31">
+                        </a>
+                    </div>
+                </nav>
+                <div class="nav__main">
+                    <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                    <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                    <button id="ping_btn" class="nav__links" onclick="show_form()" href="">Pings</button>
+                    <a class="nav__links" href="/{{organization.organization_id}}/my/readings">Hey!</a>
+                    <a class="nav__links" href="/{{organization.organization_id}}/activity">Activity</a>
+                    <button id="stuff_btn" class="nav__links" onclick="show_stuff()" href="">My Stuff</button>
+                    <a class="nav__links" href="/{{organization.organization_id}}/search">Find</a>
+                </div>
+                <nav class="nav-menu nav-menu__me">
+                    <div class="collapsible_content">
+                        <button class="nav__link--me" onclick="show_account()">
+                            <img src="{{account.account_avatar}}" class="avatar">
+                        </button>
+                    </div>
+                </nav>
+            </nav>
+        </div>
+        <div id="my_account" class="expanded_avatar_content account_content">
+            <div class="nav-menu__scroller">
+                <section class="nav-menu__section">
+                    <h3 class="flush personal_setting_label">
+                        <span>My Basecamp users</span>
+                    </h3>
+                    <ul class="unbullete action_ul">
+                        {% for organization in organizations %}
+                        <li>
+                            <a class="list__action account_list_action" href="/{{organization.organization_id}}">{{organization.organization_name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <form id="search_ping" class="ping_form" onsubmit="" method="post">
+            <div class="ping_form_container">
+                <div class="ping_form_sub_container">
+                    <section class="ping_sheet_entering">
+                        <article class="centered">
+                            <section>
+                                <input class="input_ping" list="members" name="receiver1" placeholder="Start a private chat with..."/>
+                                <datalist id="members">
+                                    {% for member in contacts %}
+                                        <option value="{{member.name}} : {{member.id}}">
+                                    {% endfor %}
+                                </datalist>
+                                <input class="input_ping" list="members" name="receiver2" placeholder="Start a private chat with..."/>
+                                <datalist id="members">
+                                    {% for member in contacts %}
+                                        <option value="{{member.name}} : {{member.id}}">
+                                    {% endfor %}
+                                </datalist>
+                                <input class="input_ping" list="members" name="receiver3" placeholder="Start a private chat with..."/>
+                                <datalist id="members">
+                                    {% for member in contacts %}
+                                        <option value="{{member.name}} : {{member.id}}">
+                                    {% endfor %}
+                                </datalist>
+                                <input class="input_ping" list="members" name="receiver4" placeholder="Start a private chat with..."/>
+                                <datalist id="members">
+                                    {% for member in contacts %}
+                                        <option value="{{member.name}} : {{member.id}}">
+                                    {% endfor %}
+                                </datalist>
+                                <button id="send_receiver" class="ping_em_btn create_project_btn centered btn btn-primary" type="submit" onclick="window.location.href='/{{organization.organization_id}}';">
+                                    Ping'em
+                                </button>
+                            </section>
+                            <section class="ping_list">
+                                <h3 class="ping_list_header">
+                                    <span class="header_label">All Pings</span>
+                                </h3>
+                                {% for chat_history in user_chats %}
+                                    <div>
+                                        <a href="/{{organization.organization_id}}/circles/{{chat_history.thread_id}}">
+                                            {% for member in chat_history.members %}
+                                                {{ member.name }} 
+                                            {% endfor %}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </section>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </form>
+        <div id="my_stuff" class="expanded_content">
+            <div class="stuff_scroller">
+                <section class="stuff_section">
+                    <ul class="unbullete">
+                        <li>
+                            <a class="list__action nav__my-stuff nav__my-stuff--assignments" href="/{{organization.organization_id}}/users/{{user.id}}/assignments">
+                                My Assignments
+                                <span>(2)</span>
+                            </a>
+                            <a class="list__action nav__my-stuff nav__my-stuff--schedules" href="/{{organization.organization_id}}/users/{{user.id}}/schedule">
+                                My Schedule
+                            </a>
+                            <a class="list__action nav__my-stuff nav__my-stuff--activity" href="/{{organization.organization_id}}/users/{{user.id}}/activity">
+                                My Recent Activity
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div id="my_avatar" class="expanded_avatar_content">
+            <div class="nav-menu__scroller">
+                <section class="nav-menu__section">
+                    <h3 class="flush personal_setting_label">
+                        <span>Personal Settings</span>
+                    </h3>
+                    <ul class="unbullete action_ul">
+                        <li>
+                            <a class="list__action account_list_action" href="/{{organization.organization_id}}/my/profile">My profile (avatar, title, password, etc)</a>
+                        </li>
+                        <li>
+                            <a class="list__action account_list_action" href="/session">Log out</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div class="adminland_btn">
+            <a class="adminland_link" href="/{{organization.organization_id}}/account">
+                <span>Adminland</span>
+            </a>
+        </div>
+        <div class="paper_container">
+            <div class="directory_box">
+                <a class="decorated" href="/{{organization.organization_id}}/projects/{{project.project_id}}">{{project.project_name}}</a>
+                >
+                <a class="decorated" href="/{{organization.organization_id}}/projects/{{project.project_id}}/todos_topics">To-dos</a>
+                >
+                <a class="decorated" href="/{{organization.organization_id}}/projects/{{project.project_id}}/todos_topics/{{element.collector_id}}">{{project.element_collector.get_element(3, element.collector_id).title}}</a>
+            </div>
+
+            <div class="detail_box">
+                todo_details
+                <div class="header_box">
+                    <div class="check_box_button">
+                        <div class="checkbox-container">
+                            {% if element.completed %}
+                                <input type="checkbox" id="todo_checkbox" value="{{element.id}}" checked>
+                            {% else %}
+                                <input type="checkbox" id="todo_checkbox" value="{{element.id}}">
+                            {% endif %}
+                            <label for="todo_checkbox"></label>
+                        </div>
+                    </div>
+                    <div class="todo_title_box">
+                        {{element.title}}
+                    </div>
+                    <div class="right_upside_button_box">
+                        <button class="manage_button" id="manage_button">···</button>
+                    </div>
+
+                    
+                </div>
+
+                    <div class="line"></div>
+
+                <div class="two_side_text_box">
+                    
+
+                    <div class="property_name_box" >Added by</div>
+                    <div class="property_value_box">{{element.added_by.name}}</div>
+
+                    <div class="property_name_box">Assigned to</div>
+                    <div class="property_value_box">
+                        {% for assignee in element.assigned_to %}
+                            {{assignee.name}} 
+                        {% endfor %}
+                    </div>
+
+                    <div class="property_name_box">When done, notify</div>
+                    <div class="property_value_box">{{element.when_done_notify}}</div>
+
+                    <div class="property_name_box">Due on</div>
+                    <div class="property_value_box">{{element.end_date}}</div>
+
+                    <div class="property_name_box">Notes</div>
+                    <div class="property_value_box">{{element.content}}</div>
+
+                </div>
+                    <div class="line"></div>
+
+            </div>
+        </div>
+    </body>
+<script>
+    var checkbox = document.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            var todo_id = this.value
+            fetch('/{{organization.organization_id}}/users/{{user.id}}/todos/complete', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({todo_id})
+            })
+            .then(response => response.json())
+            
+            .catch(error => {
+            console.error(error);
+                                    });
+            }
+        
+        });
+
+        var count1 = 0
+    function show_form() {
+        if (count1 == 0) {document.getElementById('search_ping').style.display = 'flex'; count1 += 1;}
+        else {document.getElementById('search_ping').style.display = 'none'; count1 = 0;}
+    }
+
+    var count2 = 0
+    function show_stuff() {
+        if (count2 == 0) {document.getElementById('my_stuff').style.display = 'flex'; count2 += 1;}
+        else {document.getElementById('my_stuff').style.display = 'none'; count2 = 0;}
+    }
+
+    var count3 = 0
+    function show_account() {
+        if (count3 == 0) {document.getElementById('my_avatar').style.display = 'flex'; count3 += 1; console.log(1);}
+        else {document.getElementById('my_avatar').style.display = 'none'; count3 = 0;}
+    }
+    
+    var count4 = 0
+    function show_organizations() {
+        if (count4 == 0) {document.getElementById('my_account').style.display = 'flex'; count4 += 1; console.log(1);}
+        else {document.getElementById('my_account').style.display = 'none'; count4 = 0;}
+    }
+</script>
+</html>

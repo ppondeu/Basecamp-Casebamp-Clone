@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="robots" content="noarchive">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="referrer" content="origin-when-cross-origin">
+    <title>Casebamp Accounts</title>
+    <!-- <link rel="shortcut icon" href="/static/favicon.ico" type="image/png" sizes="32x32"> -->
+    <meta name="theme-color" content="#3B9964">
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token"
+        content="lXIhGygkRMectpYiVZ3TZAXdihYxkXN5BfTNX8P3l1CHUM+5N2YJi+n9+MZfUJV5Kad6TBMKAP+u57K0MkyYgw==">
+    <link rel="stylesheet"
+        href="https://launchpad-asset0.37signals.com/assets/desktop-c80de1ec8c50d13ba870a5d1013f8ca5bcf57b41473a3900429935ca13eb5d94.css"
+        media="all">
+    <style>
+        .box {
+            padding-bottom: 6px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+            width: 248px;
+            margin: 45px auto;
+            text-align: center;
+        }
+
+        .box-header {
+            margin: 0 0 10px;
+            padding: 12px 0 10px;
+            cursor: move;
+            border-bottom: 1px solid #d9d9d9;
+            text-align: center;
+        }
+
+        .box-link {
+            display: block;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .box-img {
+            width: 70px;
+            height: 70px;
+            margin: 10px auto;
+        }
+
+        .box-element {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="launcher-wrapper">
+        <div id="header" class="masthead clearfix">
+            <a class="masthead__bc-logo logo" href="/identity">Casebamp</a>
+            <a class="masthead__lp-logo" href="/identity">Launchpad</a>
+            <ul class="nav">
+                <li class="nav__item nav__item--name">
+                    <a href="/identity"><img class="nav__avatar" title="{{account.name}}"
+                            src="{{account.account_avatar}}"></a>
+                </li>
+                <li class="nav__item">
+                    <a href="/identity/edit">Edit my profile</a>
+                </li>
+                <li class="nav__item">
+                    <!-- <a rel="nofollow" href="/session" id = "click" >Log out</a> -->
+                    <a rel="nofollow" href="/session">Log out</a>
+                </li>
+            </ul>
+        </div>
+        <div class="box">
+            <h2 class="box-header">Casebamp</h2>
+            <!-- <form id="form"> -->
+                {% for i in range(users | length) %}
+                <a class="box-link" id = "user-link" href="/users/{{users[i].id}}">
+                    <img class="box-img" src="/static/paper-clip.svg">
+                    <div>{{organizations[i].organization_name}}</div>
+                </a>
+                {% endfor %}
+            <!-- </form> -->
+        </div>
+
+    </div>
+<script>
+</script>
+</body>
+
+</html>

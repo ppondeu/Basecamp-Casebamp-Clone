@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration Form Example</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin :0;
+        }
+        html, body {
+            font-family: Arial, sans-serif;
+            background-color: #fffcf9;
+        }
+        body {
+            margin-top: 50px;
+        }
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background-color: white;
+        }
+
+      .profile-img-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+        margin: 0 auto 20px; /* Add a margin below the image container */
+      }
+
+      .profile-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: auto;
+      }
+      
+      /* Style form inputs */
+      form {
+        /* width: 25%; Set the width of the form to 25% of the screen */
+        margin: 0 auto; /* Center the form horizontally */
+        background-color: white;
+      }
+      
+      input[type="text"], input[type="email"], input[type="password"], input[type="submit"] {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      input[type="file"]{
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+      }
+
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+      }
+      strong {
+        text-align: center;
+        display: block;}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <strong>Registration Form Example</strong>
+    <div class="profile-img-container">
+        <img src="https://i.ibb.co/KW3xr1m/avatar.gif" alt="Profile Image Preview" id="profile-img-preview" class="profile-img">
+      </div>
+    <form id="signup-form">
+      <input type="file" id="profile-img-input" accept="image/*" value="Add your profile...">
+      
+      <input type="hidden" id="image_url" name="image_url" value="-">
+      
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      
+      <label for="organization_name">Organization Name:</label>
+      <input type="text" id="organization_name" name="organization_name" readonly>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" readonly>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      
+      <input type="submit" value="Submit">
+    </form>
+    </div>
+    
+    <script>
+        function rot13(str) {
+        var input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        var output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+        var index = x => input.indexOf(x);
+        return str.split('')
+                    .map(x => index(x) > -1 ? output[index(x)] : x)
+                    .join('');
+      }
+      window.onload = function(){
+            const organization_name = document.querySelector('#organization_name');
+            const url = window.location.href;
+            const organization_name_param = decodeURIComponent(url.match(/betnavmngvba_anzr=([^&]+)/)[1]);
+            
+            organization_name.value = rot13(organization_name_param)
+            const email = document.querySelector('#email');
+            const email_param = decodeURIComponent(url.match(/rznvy=([^&]+)/)[1]);
+            email.value = rot13(email_param);
+      }
+
+      async function uploadImage() {
+        const apiKey = '62c18fb1790c4f52bb1a031c0332b453';
+        const fileInput = document.getElementById('profile-img-input');
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('key', apiKey);
+        formData.append('image', file);
+
+        const response = await fetch('https://api.imgbb.com/1/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const jsonResponse = await response.json();
+          const imageUrl = jsonResponse.data.url;
+          document.getElementById('profile-img-preview').src = imageUrl;
+          document.getElementById('image_url').value = imageUrl;
+        } else {
+          console.log('Error uploading image. Status code: ' + response.status);
+        }
+    }
+
+    const fileInput = document.getElementById('profile-img-input');
+    fileInput.addEventListener('change', () => {
+      uploadImage();
+    });
+
+
+    const form = document.querySelector('#signup-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const image_url = document.querySelector('#image_url').value;
+      const name = document.querySelector('#name').value;
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
+      
+      // alert(`Name: ${name}\nAvatar URL: ${image_url}\nEmail: ${email}\nPassword: ${password}`);
+      const formData = new FormData();
+      formData.append('image_url', image_url);
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      const organization_id = window.location.href.match(/\/(\d+)\//)[1];
+      const url_fetch = `/${organization_id}/invitations/signup`;
+      // alert(url_fetch)
+      fetch(url_fetch, {
+          method: 'POST',
+          body: formData
+      }).then((res) => {
+          return res.json();
+      }).then((data) => {
+
+          console.log(data)
+          if (data.response === 'success') {
+              alert('User created successfully');
+              window.location.href = `/users/${data.user_id}`;
+          } else {
+              alert('User creation failed');
+          }
+      }).catch((err) => {
+          console.log(err);
+      });
+
+    });
+    </script>
+  </body>
+</html>

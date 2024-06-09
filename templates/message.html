@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.cdnfonts.com/css/proxima-nova" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link href="/static/styles_march.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+            background-color: #fff;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(255, 252, 249, 1);
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        main,
+        nav,
+        section,
+        summary {
+            display: block;
+        }
+
+        div {
+            display: block;
+        }
+
+        section {
+            position: relative;
+        }
+
+        section #description_section {
+            height: 125px;
+        }
+
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-block-start: 0.67em;
+            margin-block-end: 0.67em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        h3 {
+            height: 25px;
+            margin: 0 0 0 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .flush {
+            margin: 0 0;
+        }
+
+        .nav {
+            height: 50px;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .nav__bar {
+            position: fixed;
+            height: 39px;
+            width: 100%;
+            top: 0;
+            text-align: center;
+            z-index: 6;
+            background-color: rgba(var(--rgb-beige), 0.9);
+            line-height: 1.5;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+        }
+
+        .panel {
+            padding: 0 1.6rem;
+            margin: 0 auto 10rem;
+            max-width: 68em;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .project-list__link {
+            display: block;
+            padding: 0.7rem 0;
+            font-weight: bold;
+        }
+
+        .nav-menu__accounts {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            position: relative;
+            line-height: 1.5;
+            z-index: 9;
+            width: 136px;
+        }
+
+        .collapsible_content {
+            height: 32px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .nav__main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 0;
+            grid-column: 1 / -1;
+            grid-row: 1;
+        }
+
+        .nav__links {
+            display: flex;
+            padding: 10px;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 0.6em;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .organization_name_logo {
+            display: flex;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 0.6em;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .panel-home__buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            height: 42px;
+            gap: 0.6rem;
+        }
+
+        .__container__ {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 70%;
+            min-height: 100vh;
+            margin: 20px auto 0;
+            box-shadow: 0 2px 10px #8774571a, 0 4px 4px #8774571a, 0 25px 19px -11px #8774571a, 0 10px 30px #8774571a;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .__header_bar__ {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0 30px;
+        }
+
+        .__title_part__ {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+
+        .__new_document__ a,
+        .__rename_n_put_in_trash__ a {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            background-color: #eee;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .__new_document__ a:hover,
+        .__rename_n_put_in_trash__ a:hover {
+            background-color: #ddd;
+        }
+
+        .__title__ {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .__rename__ {
+            background-color: #8bc34a;
+            color: #fff;
+        }
+
+        .__trash__ {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        .__rename__,
+        .__trash__ {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .__rename__:hover,
+        .__trash__:hover {
+            filter: brightness(1.2);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="nav">
+        <nav id="my_navigation" class="nav__bar">
+            <nav class="nav-menu nav-menu__accounts">
+                <div class="collapsible_content">
+                    <a href="">
+                        <img src="imgs/basecamp2.png" width="135" height="31">
+                    </a>
+                </div>
+            </nav>
+            <div class="nav__main">
+                <a class="nav__links" href="/{{organization.organization_id}}">Home</a>
+                <a class="nav__links" href="/{{organization.organization_id}}/projects/lineup">Lineup</a>
+                <a class="nav__links" href="">Pings</a>
+                <a class="nav__links" href="">Hey!</a>
+                <a class="nav__links" href="">Activity</a>
+                <a class="nav__links" href="">My Stuff</a>
+                <a class="nav__links" href="">Find</a>
+            </div>
+        </nav>
+    </div>
+    <div class="__container__">
+        <div class="__header_bar__">
+            <a href="/{{organization.organization_id}}/projects/{{project.project_id}}"> {{project.project_name}} </a>
+            {% for f_path in folder_path %}
+            <span> > </span>
+            <a href="/{{organization.organization_id}}/projects/{{project.project_id}}/folder/{{f_path.id}}">
+                {{f_path.title}} </a>
+            {% endfor %}
+        </div>
+        <div class="__title_part__">
+            <div class="__new_document__">
+                <a href="#newdoc" class="__new_file__">Start a new doc</a>
+                <a href="#newfolder" class="__new_folder__">Make a new folder</a>
+            </div>
+            <span class="__title__">{{current_folder.title}}</span>
+            <div class="__rename_n_put_in_trash__">
+                <a href="#rename" class="__rename__">Rename this folder</a>
+                <a href="#trash" class="__trash__">Put in trash</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
